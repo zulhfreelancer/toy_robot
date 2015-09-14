@@ -1,0 +1,68 @@
+<html ng-app="myApp">
+
+<head>
+    <title>Toy Robot</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8">
+</head>
+
+<body ng-controller="myCtrl">
+    <div class="playground">
+        <div class="row">
+            <div class="tile" id="t40"></div>
+            <div class="tile" id="t41"></div>
+            <div class="tile" id="t42"></div>
+            <div class="tile" id="t43"></div>
+            <div class="tile" id="t44"></div>
+        </div>
+        <div class="row">
+            <div class="tile" id="t30"></div>
+            <div class="tile" id="t31"></div>
+            <div class="tile" id="t32"></div>
+            <div class="tile" id="t33"></div>
+            <div class="tile" id="t34"></div>
+        </div>
+        <div class="row">
+            <div class="tile" id="t20"></div>
+            <div class="tile" id="t21"></div>
+            <div class="tile" id="t22"></div>
+            <div class="tile" id="t23"></div>
+            <div class="tile" id="t24"></div>
+        </div>
+        <div class="row">
+            <div class="tile" id="t10"></div>
+            <div class="tile" id="t11"></div>
+            <div class="tile" id="t12"></div>
+            <div class="tile" id="t13"></div>
+            <div class="tile" id="t14"></div>
+        </div>
+        <div class="row">
+            <div class="tile" id="t00"></div>
+            <div class="tile" id="t01"></div>
+            <div class="tile" id="t02"></div>
+            <div class="tile" id="t03"></div>
+            <div class="tile" id="t04"></div>
+        </div>
+        <br>
+        <input type="number" placeholder="X" ng-model="place.x">
+        <input type="number" placeholder="Y" ng-model="place.y">
+        <br>
+        <button ng-click="hello(place)">Place me!</button>
+        <div class="info">
+        	<br>
+            <strong>Coordinate of the tiles</strong>
+            <br> [4,0] [4,1] [4,2] [4,3] [4,4]
+            <br> [3,0] [3,1] [3,2] [3,3] [3,4]
+            <br> [2,0] [2,1] [2,2] [2,3] [2,4]
+            <br> [1,0] [1,1] [1,2] [1,3] [1,4]
+            <br> [0,0] [0,1] [0,2] [0,3] [0,4]
+        </div>
+        <!-- /info -->
+    </div>
+    <!-- /playground -->
+</body>
+
+</html>
