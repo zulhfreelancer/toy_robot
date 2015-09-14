@@ -4,7 +4,7 @@
     <title>Toy Robot</title>
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
-    <script type="text/javascript" src="app.js"></script>
+    <script src="app.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="utf-8">
 </head>
@@ -50,15 +50,19 @@
         <input type="number" placeholder="X" ng-model="place.x">
         <input type="number" placeholder="Y" ng-model="place.y">
         <br>
-        <button ng-click="hello(place)">Place me!</button>
+        <button ng-click="placeRobot(place)">Place</button>
+        <button ng-click="left()">Left</button>
+        <button ng-click="right()">Right</button>
+        <button ng-click="move()">Go Forward</button>
+        <button ng-click="reset()">Reset</button>
         <div class="info">
         	<br>
-            <strong>Coordinate of the tiles</strong>
-            <br> [4,0] [4,1] [4,2] [4,3] [4,4]
-            <br> [3,0] [3,1] [3,2] [3,3] [3,4]
-            <br> [2,0] [2,1] [2,2] [2,3] [2,4]
-            <br> [1,0] [1,1] [1,2] [1,3] [1,4]
-            <br> [0,0] [0,1] [0,2] [0,3] [0,4]
+            <strong>Bot position: </strong><span>{{x}}, {{y}} facing {{f}}</span>
+            <br> [4, 0] [4, 1] [4, 2] [4, 3] [4, 4]
+            <br> [3, 0] [3, 1] [3, 2] [3, 3] [3, 4]
+            <br> [2, 0] [2, 1] [2, 2] [2, 3] [2, 4]
+            <br> [1, 0] [1, 1] [1, 2] [1, 3] [1, 4]
+            <br> [0, 0] [0, 1] [0, 2] [0, 3] [0, 4]
         </div>
         <!-- /info -->
     </div>
