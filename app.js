@@ -8,7 +8,7 @@ app.controller('myCtrl', function($scope) {
     var prevPos;
     var facing;
     var facingDeg;
-    var doRot
+    var doRotate;
 
     console.log("Initial pos: " + pos);
 
