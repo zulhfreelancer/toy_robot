@@ -434,3 +434,9 @@ Started GET "/assets/application.self-3b8dabdc891efe46b9a144b400ad69e37d7e5876bd
 
 
 Started GET "/assets/favicon-275199f7abf5322de5560e10f172de8fc0e2e96e4d4eb60009a2df01f06954d0.ico" for ::1 at 2015-09-16 18:12:17 +0800
+
+
+Started GET "/" for ::1 at 2015-09-16 18:14:59 +0800
+Processing by StaticPagesController#index as HTML
+  Rendered static_pages/index.html.erb within layouts/application (1.4ms)
+Completed 200 OK in 401ms (Views: 400.3ms | ActiveRecord: 0.0ms)
