@@ -33,7 +33,7 @@ body {
 
 .current {
     background: #fff;
-    background-image: url(bot.gif);
+    background-image: asset-data-url("bot.gif");
     background-repeat: no-repeat;
     background-position: center;
 }

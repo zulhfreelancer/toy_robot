@@ -73,6 +73,7 @@ app.controller('myCtrl', function($scope) {
                 console.log("Latest pos: " + pos);
                 rotateAfterForward(facing, pos);
                 botPos(pos);
+                $scope.place = "";
             } else {
                 alert("Please only enter number of X and Y in range of 0 - 4");
             }
@@ -377,6 +378,7 @@ app.controller('myCtrl', function($scope) {
         pos = startTile;
         start(pos);
         botPos(pos);
+        $scope.place = "";
     };
 
     // helper function to show current bot position inside view
