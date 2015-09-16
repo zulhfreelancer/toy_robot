@@ -6,52 +6,80 @@ app.controller('myCtrl', function($scope) {
     var startTile = 12;
     var pos = startTile;
     var prevPos;
-    var facing = [1, 2, 3, 4];
+    var facing;
+    var facingDeg;
+    var doRotate;
 
     console.log("Initial pos: " + pos);
-    console.log("All facing: " + facing);
 
     $scope.init = function() {
         console.log("Step: " + steps);
-        setCurrent(pos);
-
-        facing = 2;
-        console.log("Initial facing: " + facing);
-        botPos(pos);
+        start(pos);
     };
 
     $scope.init();
 
-    function setCurrent(pos) {
-        $("#t" + pos).addClass("current move");
+    function start(pos) {
+        $("#t" + pos).addClass("current");
+
+        // reset robot head to heading north at angle 0
+        document.getElementById("t" + pos).style.WebkitTransform = "rotate(0deg)";
+        document.getElementById("t" + pos).style.msTransform = "rotate(0deg)";
+        document.getElementById("t" + pos).style.transform = "rotate(0deg)";
+
+        facing = 2;
+        facingDeg = 0;
+        console.log("Initial facing: " + facing);
+        console.log("Facing deg: " + facingDeg);
+        botPos(pos);
+    }
+
+    function rotate(facingDeg, prevPos) {
+
+        console.log("Rotating to: " + facingDeg);
+        console.log("Prev pos: " + prevPos);
+
+        document.getElementById("t" + prevPos).style.WebkitTransform = "rotate(" + facingDeg + "deg)";
+        document.getElementById("t" + prevPos).style.msTransform = "rotate(" + facingDeg + "deg)";
+        document.getElementById("t" + prevPos).style.transform = "rotate(" + facingDeg + "deg)";
+
+        console.log("Latest facing deg: " + facingDeg);
     }
 
     $scope.placeRobot = function(place) {
 
-        if (place.x && place.y) {
-            steps++;
+        if (place.x !== '' && place.y !== '') {
 
-            console.log("Step: " + steps);
+            if ((place.x >= 0 && place.x < 5) && (place.y >= 0 && place.y < 5)) {
+                steps++;
 
-            if (steps === 0) {
+                console.log("Step for this placeRobot: " + steps);
+                console.log("Facing for this placeRobot: " + facing);
 
+                if (steps === 0) {
+                    prevPos = startTile;
+                } else {
+                    prevPos = pos;
+                }
+
+                console.log("Prev pos: " + prevPos);
+                $("#t" + prevPos).removeClass("current");
+
+                var newX = place.x;
+                var newY = place.y;
+
+                $("#t" + newX + newY).addClass("current");
+                pos = newX + "" + newY;
+                console.log("Latest pos: " + pos);
+                rotateAfterForward(facing, pos);
+                botPos(pos);
             } else {
-                prevPos = pos;
+                alert("Please only enter number of X and Y in range of 0 - 4");
             }
 
-            console.log("Prev pos: " + prevPos);
-            $("#t" + prevPos).removeClass("current move");
-
-            var newX = place.x;
-            var newY = place.y;
-
-            $("#t" + newX + newY).addClass("current move");
-            pos = newX + "" + newY;
-            console.log("Latest pos: " + pos);
-            botPos(pos);
         } else {
             alert("Please insert both X and Y coordinate!");
-        };
+        }
     };
 
     $scope.move = function() {
@@ -59,13 +87,101 @@ app.controller('myCtrl', function($scope) {
         steps++;
         console.log("Step: " + steps);
 
-        if (steps === 0) {
+        console.log("Facing: " + facing);
+        console.log("Pos: " + pos);
 
+        if (steps === 0) {
+            prevPos = startTile;
         } else {
             prevPos = pos;
         }
 
-        console.log("Prev post: " + prevPos);
+
+        if (facing == 1) {
+            // forward to west
+            console.log("Moving to west");
+            forwardWest();
+        } else if (facing == 2) {
+            // forward to north
+            console.log("Moving to north");
+            forwardNorth();
+        } else if (facing == 3) {
+            // facing to east
+            console.log("Moving to east");
+            forwardEast();
+        } else if (facing == 4 || facing === 0) {
+            // facing to south
+            console.log("Moving to south");
+            forwardSouth();
+        }
+
+    };
+
+    function forwardEast() {
+        console.log("Hello from forwardEast function!");
+        console.log("prevPos: " + prevPos);
+        console.log("Facing: " + facing);
+
+        var split = prevPos.toString(10).split("").map(function(t) {
+            return parseInt(t)
+        });
+
+        var prevX = split[0];
+        var prevY = split[1];
+
+        console.log("Prev X: " + prevX);
+        console.log("Prev Y: " + prevY);
+
+        newX = prevX;
+        newY = prevY + 1;
+
+        if (newY < 5) {
+            $("#t" + prevPos).removeClass("current");
+            $("#t" + newX + newY).addClass("current");
+            pos = newX + "" + newY;
+            console.log("Latest pos: " + pos);
+            botPos(pos);
+            rotateAfterForward(facing, pos);
+        } else {
+            alert("Sorry, no more tile available");
+        }
+    }
+
+    function forwardWest() {
+        console.log("Hello from forwardWest function!");
+        console.log("prevPos: " + prevPos);
+        console.log("Facing: " + facing);
+
+        var split = prevPos.toString(10).split("").map(function(t) {
+            return parseInt(t)
+        });
+
+        var prevX = split[0];
+        var prevY = split[1];
+
+        console.log("Prev X: " + prevX);
+        console.log("Prev Y: " + prevY);
+
+        newX = prevX;
+        newY = prevY - 1;
+
+        if (newY >= 0) {
+            $("#t" + prevPos).removeClass("current");
+            $("#t" + newX + newY).addClass("current");
+            pos = newX + "" + newY;
+            console.log("Latest pos: " + pos);
+            botPos(pos);
+            rotateAfterForward(facing, pos);
+        } else {
+            alert("Sorry, no more tile available");
+        }
+    }
+
+    function forwardNorth() {
+        console.log("Hello from forwardNorth function!");
+        console.log("prevPos: " + prevPos);
+        console.log("Facing: " + facing);
+
         var split = prevPos.toString(10).split("").map(function(t) {
             return parseInt(t)
         });
@@ -79,12 +195,72 @@ app.controller('myCtrl', function($scope) {
         newX = prevX + 1;
         newY = prevY;
 
-        $("#t" + prevPos).removeClass("current move");
-        $("#t" + newX + newY).addClass("current move");
-        pos = newX + "" + newY;
-        console.log("Latest pos: " + pos);
-        botPos(pos);
-    };
+        if (newX < 5) {
+            $("#t" + prevPos).removeClass("current");
+            $("#t" + newX + newY).addClass("current");
+            pos = newX + "" + newY;
+            console.log("Latest pos: " + pos);
+            botPos(pos);
+            rotateAfterForward(facing, pos);
+        } else {
+            alert("Sorry, no more tile available");
+        }
+    }
+
+    function forwardSouth() {
+        console.log("Hello from forwardSouth function!");
+        console.log("prevPos: " + prevPos);
+        console.log("Facing: " + facing);
+
+        var split = prevPos.toString(10).split("").map(function(t) {
+            return parseInt(t)
+        });
+
+        var prevX = split[0];
+        var prevY = split[1];
+
+        console.log("Prev X: " + prevX);
+        console.log("Prev Y: " + prevY);
+
+        newX = prevX - 1;
+        newY = prevY;
+
+        if (newX >= 0) {
+            $("#t" + prevPos).removeClass("current");
+            $("#t" + newX + newY).addClass("current");
+            pos = newX + "" + newY;
+            console.log("Latest pos: " + pos);
+            botPos(pos);
+            rotateAfterForward(facing, pos);
+        } else {
+            alert("Sorry, no more tile available");
+        }
+
+    }
+
+    function rotateAfterForward(facing, prevPos) {
+        if (facing == 1) {
+            // west
+            facingDeg = 270;
+            console.log("Robot is rotating to: " + facingDeg);
+            rotate(facingDeg, prevPos);
+        } else if (facing == 2) {
+            // north
+            facingDeg = 0;
+            console.log("Robot is rotating to: " + facingDeg);
+            rotate(facingDeg, prevPos);
+        } else if (facing == 3) {
+            // east
+            facingDeg = 90;
+            console.log("Robot is rotating to: " + facingDeg);
+            rotate(facingDeg, prevPos);
+        } else if (facing == 4 || facing === 0) {
+            // south
+            facingDeg = 180;
+            console.log("Robot is rotating to: " + facingDeg);
+            rotate(facingDeg, prevPos);
+        }
+    }
 
     $scope.left = function() {
         console.log("I'm turning left!");
@@ -92,19 +268,46 @@ app.controller('myCtrl', function($scope) {
         console.log("Step: " + steps);
 
         console.log("Prev facing: " + facing);
-        facing -= 1;
-        console.log("New facing: " + facing);
+        console.log("The robot currently facing: " + $scope.f);
 
-        if (steps === 0) {
-
+        if ($scope.f == "west") {
+            // when bot facing west
+            doRotate = true;
+        } else if ($scope.f == "north") {
+            // when bot facing north
+            doRotate = true;
+        } else if ($scope.f == "east") {
+            // when bot facing east
+            doRotate = true;
+        } else if ($scope.f == "south") {
+            // when bot facing south
+            doRotate = false;
         } else {
-            prevPos = pos;
+            // when bot facing other than west, north, east and south
+            doRotate = false;
         }
 
-        $("#t" + prevPos).removeClass("current move right");
-        $("#t" + prevPos).addClass("current left");
+        if ((facing >= 0 && facing < 5) && doRotate === true) {
+            if (steps === 0) {
 
-        botPos(pos);
+            } else {
+                prevPos = pos;
+                console.log("Current facing deg: " + facingDeg);
+            }
+
+            facing -= 1;
+            console.log("New facing: " + facing);
+
+            facingDeg -= 90;
+            console.log("New facing deg: " + facingDeg);
+            rotate(facingDeg, prevPos);
+
+            botPos(pos);
+        } else {
+            alert("Cannot rotate left anymore\nPlease rotate back to right");
+            console.log("Facing: " + facing);
+        }
+
     };
 
     $scope.right = function() {
@@ -116,25 +319,32 @@ app.controller('myCtrl', function($scope) {
         facing += 1;
         console.log("New facing: " + facing);
 
-        if (steps === 0) {
+        if (facing > 0 && facing < 5) {
+            if (steps === 0) {
 
+            } else {
+                prevPos = pos;
+                console.log("Current facing deg: " + facingDeg);
+            }
+
+            facingDeg += 90;
+            console.log("New facing deg: " + facingDeg);
+            rotate(facingDeg, prevPos);
+
+            botPos(pos);
         } else {
-            prevPos = pos;
+            console.log("Cannot rotate anymore");
         }
-
-        $("#t" + prevPos).removeClass("current move left");
-        $("#t" + prevPos).addClass("current right");
-
-        botPos(pos);
     };
 
     $scope.reset = function() {
         console.log("Reset yo!");
 
         console.log("Current pos: " + pos);
-        $("#t" + pos).removeClass("current move left right");
-        setCurrent(startTile);
+        $("#t" + pos).removeClass("current");
+        start(startTile);
         pos = startTile;
+        start(pos);
         botPos(pos);
     };
 
@@ -151,19 +361,19 @@ app.controller('myCtrl', function($scope) {
         $scope.y = y;
 
         if (facing == 1) {
-          console.log("Facing west");
-          $scope.f = "west";
+            console.log("Latest facing: west");
+            $scope.f = "west";
         } else if (facing == 2) {
-          console.log("Facing north");
-          $scope.f = "north";
+            console.log("Latest facing: north");
+            $scope.f = "north";
         } else if (facing == 3) {
-          console.log("Facing east");
-          $scope.f = "east";
-        } else if (facing == 4) {
-          console.log("Facing south");
-          $scope.f = "south";
+            console.log("Latest facing: east");
+            $scope.f = "east";
+        } else if (facing == 4 || facing === 0) {
+            console.log("Latest facing: south");
+            $scope.f = "south";
         } else {
-          console.log("Out of range");
+            console.log("Out of range");
         }
     }
 
