@@ -316,10 +316,26 @@ app.controller('myCtrl', function($scope) {
         console.log("Step: " + steps);
 
         console.log("Prev facing: " + facing);
-        facing += 1;
-        console.log("New facing: " + facing);
+        console.log("The robot currently facing: " + $scope.f);
 
-        if (facing > 0 && facing < 5) {
+        if ($scope.f == "west") {
+            // when bot facing west
+            doRotate = true;
+        } else if ($scope.f == "north") {
+            // when bot facing north
+            doRotate = true;
+        } else if ($scope.f == "east") {
+            // when bot facing east
+            doRotate = true;
+        } else if ($scope.f == "south") {
+            // when bot facing south
+            doRotate = false;
+        } else {
+            // when bot facing other than west, north, east and south
+            doRotate = false;
+        }
+
+        if ((facing >= 0 && facing < 5) && doRotate === true) {
             if (steps === 0) {
 
             } else {
@@ -327,14 +343,19 @@ app.controller('myCtrl', function($scope) {
                 console.log("Current facing deg: " + facingDeg);
             }
 
+            facing += 1;
+            console.log("New facing: " + facing);
+
             facingDeg += 90;
             console.log("New facing deg: " + facingDeg);
             rotate(facingDeg, prevPos);
 
             botPos(pos);
         } else {
-            console.log("Cannot rotate anymore");
+            alert("Cannot rotate right anymore\nPlease rotate back to left");
+            console.log("Facing: " + facing);
         }
+
     };
 
     $scope.reset = function() {
