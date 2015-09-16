@@ -8,7 +8,7 @@ app.controller('myCtrl', function($scope) {
     var prevPos;
     var facing;
     var facingDeg;
-    var doRotate;
+    var doRot
 
     console.log("Initial pos: " + pos);
 
@@ -279,8 +279,13 @@ app.controller('myCtrl', function($scope) {
         } else if ($scope.f == "east") {
             // when bot facing east
             doRotate = true;
-        } else if ($scope.f == "south") {
-            // when bot facing south
+        } else if ($scope.f == "south" && facing == 4) {
+            // when bot facing south coming from east (right)
+            // robot from east to south, want to go back to east
+            doRotate = true;
+        } else if ($scope.f == "south" && facing === 0) {
+            // when bot facing south coming from west (left)
+            // robot from west to south and want to go east (end of 360 degree cycle)
             doRotate = false;
         } else {
             // when bot facing other than west, north, east and south
@@ -327,9 +332,14 @@ app.controller('myCtrl', function($scope) {
         } else if ($scope.f == "east") {
             // when bot facing east
             doRotate = true;
-        } else if ($scope.f == "south") {
-            // when bot facing south
+        } else if ($scope.f == "south" && facing == 4) {
+            // when bot facing south coming from east
+            // robot from east to south and want to go to west (end of 360 degree cycle)
             doRotate = false;
+        } else if ($scope.f == "south" && facing === 0) {
+            // when bot facing south coming from west
+            // robot from west to south and want to go back to west
+            doRotate = true;
         } else {
             // when bot facing other than west, north, east and south
             doRotate = false;
