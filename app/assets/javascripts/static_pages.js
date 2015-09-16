@@ -1,6 +1,6 @@
 var app = angular.module("myApp", []);
 
-app.controller('myCtrl', '$scope', function($scope) {
+app.controller('myCtrl', ['$scope', function($scope) {
 
     var steps = 0;
     var startTile = 12;
@@ -410,4 +410,4 @@ app.controller('myCtrl', '$scope', function($scope) {
         }
     }
 
-});
+}]);
